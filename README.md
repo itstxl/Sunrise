@@ -22,6 +22,13 @@ Destiny 2 Offline Exploration Mod
 This mod is a work in progress. Things might break or work in unexpected ways. There is also
 currently a lack of documentation. This will improve over the coming weeks.
 
+## Experimental Realm Development
+
+The `realm` fork branch also contains an independent custom-activity-server effort. It does not
+change Sunrise's default offline mode and is not yet a playable multiplayer server. See
+[`Realm/README.md`](Realm/README.md) for the implemented service boundary, build instructions and
+current milestone.
+
 ## Support Me
 
 Leave a star on this repo.

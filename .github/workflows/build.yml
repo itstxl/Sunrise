@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [master]
+    branches: [master, realm]
   pull_request:
   workflow_dispatch:
 
@@ -31,6 +31,18 @@ jobs:
           /p:PreferredToolArchitecture=x64
           /verbosity:minimal
 
+      - name: Configure Realm services
+        run: >
+          cmake -S . -B build-realm -A x64
+          -DSUNRISE_BUILD_CLIENT=OFF
+          -DSUNRISE_BUILD_REALM=ON
+          -DSUNRISE_BUILD_TESTS=ON
+
+      - name: Build and test Realm services
+        run: |
+          cmake --build build-realm --config Release --parallel
+          ctest --test-dir build-realm -C Release --output-on-failure
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -38,4 +50,8 @@ jobs:
           path: |
             build/x64/Release/steam_api64.dll
             build/x64/Release/steam_api64.pdb
+            build/x64/Release/sunrise-realm.exe
+            build/x64/Release/sunrise-realm.pdb
+            build/x64/Release/sunrise-activity-host.exe
+            build/x64/Release/sunrise-activity-host.pdb
           if-no-files-found: error
